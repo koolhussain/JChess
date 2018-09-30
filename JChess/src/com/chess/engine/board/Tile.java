@@ -11,7 +11,7 @@ public abstract class Tile {
 	
 	protected final int tileCoordinate;
 	
-	private static final Map<Integer, EmptyTile>EMPTY_TILES = createAllPossibleEmptyTiles();
+	private static final Map<Integer, EmptyTile>EMPTY_TILES_CACHE = createAllPossibleEmptyTiles();
 	
 	private Tile(int tileCoordinate) {
 		this.tileCoordinate = tileCoordinate;
@@ -29,7 +29,7 @@ public abstract class Tile {
 	}
 	
 	public static Tile createTile(final int tileCoordinate, final Piece piece) {
-		return piece != null ? new OccupiedTile(tileCoordinate, piece) : EMPTY_TILES.get(tileCoordinate);
+		return piece != null ? new OccupiedTile(tileCoordinate, piece) : EMPTY_TILES_CACHE.get(tileCoordinate);
 	}
 
 	//Abstract Method returns whether there is a Piece on a Tile
@@ -41,7 +41,7 @@ public abstract class Tile {
 	//Tile with no piece on it.
 	public static final class EmptyTile extends Tile {
 		
-		EmptyTile(final int coordinate) {
+		private EmptyTile(final int coordinate) {
 			super(coordinate);
 		}
 		
@@ -61,7 +61,7 @@ public abstract class Tile {
 		
 		private final Piece pieceOnTile;
 		
-		OccupiedTile(int tileCoordinate, Piece pieceOnTile) {
+		private OccupiedTile(int tileCoordinate, Piece pieceOnTile) {
 			super(tileCoordinate);
 			this.pieceOnTile = pieceOnTile;
 		}
